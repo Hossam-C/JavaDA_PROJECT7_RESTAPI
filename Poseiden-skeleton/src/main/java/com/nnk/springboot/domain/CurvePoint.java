@@ -1,6 +1,6 @@
 package com.nnk.springboot.domain;
 
-import org.hibernate.validator.constraints.Length;
+//import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,4 +12,8 @@ import java.sql.Timestamp;
 @Table(name = "curvepoint")
 public class CurvePoint {
     // TODO: Map columns in data table CURVEPOINT with corresponding java fields
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="Id")
+    private Integer Id;
 }
