@@ -69,8 +69,8 @@ public class RatingTest {
 
         List<RatingDTO> listRating =new ArrayList<>();
         listRating.add(rating1);
-        listRating.add(rating1);
-        listRating.add(rating1);
+        listRating.add(rating2);
+        listRating.add(rating3);
 
         when(ratingService.ratingList()).thenReturn(listRating);
 
