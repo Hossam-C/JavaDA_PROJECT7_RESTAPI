@@ -14,14 +14,14 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TradeTests {
+public class TradeIT {
 
-/*	@Autowired
-	private TradeRepository tradeRepository;*/
+	@Autowired
+	private TradeRepository tradeRepository;
 
-	/*@Test
+	@Test
 	public void tradeTest() {
-		Trade trade = new Trade("Trade Account", "Type");
+		Trade trade = new Trade("Trade Account", "Type", 10d);
 
 		// Save
 		trade = tradeRepository.save(trade);
@@ -42,5 +42,5 @@ public class TradeTests {
 		tradeRepository.delete(trade);
 		Optional<Trade> tradeList = tradeRepository.findById(id);
 		Assert.assertFalse(tradeList.isPresent());
-	}*/
+	}
 }
