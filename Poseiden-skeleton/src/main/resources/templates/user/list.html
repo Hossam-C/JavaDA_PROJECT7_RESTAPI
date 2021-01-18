@@ -30,7 +30,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="user : ${users}">
+				<tr th:each="user : ${userDTO}">
 					<td style="width: 10%" th:text="${user.id}"></td>
 					<td th:text="${user.fullname}"></td>
 					<td th:text="${user.username}"></td>

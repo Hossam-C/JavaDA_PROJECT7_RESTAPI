@@ -1,9 +1,6 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.DTO.BidListDTO;
-import com.nnk.springboot.domain.BidList;
-import com.nnk.springboot.domain.User;
-import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.services.BidListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,8 +28,8 @@ public class BidListController {
     public String home(Model model)
     {
         // TODO: call service find all bids to show to the view
-        List<BidListDTO> bidList = bidListService.bidList();
-        model.addAttribute("bidList", bidList);
+        List<BidListDTO> bidListDTO = bidListService.bidList();
+        model.addAttribute("bidListDTO", bidListDTO);
 
 
         return "bidList/list";
@@ -75,6 +72,7 @@ public class BidListController {
 
         bidListService.updateBid(bidListDTO);
 
+        model.addAttribute("bidListDTO", bidListService.bidList());
 
         return "redirect:/bidList/list";
     }

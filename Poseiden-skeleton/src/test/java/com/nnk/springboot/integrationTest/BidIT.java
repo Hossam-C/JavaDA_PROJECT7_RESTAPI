@@ -1,4 +1,4 @@
-package com.nnk.springboot;
+package com.nnk.springboot.integrationTest;
 
 import com.nnk.springboot.DTO.BidListDTO;
 import com.nnk.springboot.domain.BidList;
