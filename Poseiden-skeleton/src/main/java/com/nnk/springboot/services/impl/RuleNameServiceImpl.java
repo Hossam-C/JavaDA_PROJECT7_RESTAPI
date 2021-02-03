@@ -3,7 +3,10 @@ package com.nnk.springboot.services.impl;
 import com.nnk.springboot.DTO.RuleNameDTO;
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.repositories.RuleNameRepository;
+import com.nnk.springboot.services.BidListService;
 import com.nnk.springboot.services.RuleNameService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,11 +18,15 @@ import java.util.List;
 @Service
 public class RuleNameServiceImpl implements RuleNameService {
 
+    private static final Logger logger = LogManager.getLogger(RuleNameService.class);
+
     @Autowired
     private RuleNameRepository ruleNameRepository;
 
     @Override
     public List<RuleNameDTO> ruleList(){
+
+        logger.debug("ruleList");
 
         List<RuleNameDTO>  ruleList = new ArrayList<>();
 
@@ -45,6 +52,8 @@ public class RuleNameServiceImpl implements RuleNameService {
     @Override
     public void addRule(RuleNameDTO ruleNameDTO){
 
+        logger.debug("addRule");
+
         RuleName ruleName = new RuleName();
         ruleName.setName(ruleNameDTO.getName());
         ruleName.setDescription(ruleNameDTO.getDescription());
@@ -59,6 +68,8 @@ public class RuleNameServiceImpl implements RuleNameService {
 
     @Override
     public void updateRule(RuleNameDTO ruleNameDTO) {
+
+        logger.debug("updateRule");
 
         RuleName ruleName = new RuleName();
         ruleName.setId(ruleNameDTO.getId());
@@ -77,6 +88,8 @@ public class RuleNameServiceImpl implements RuleNameService {
     @Override
     public void deleteRule(RuleNameDTO ruleNameDTO){
 
+        logger.debug("deleteRule");
+
         RuleName ruleName = new RuleName();
         ruleName.setId(ruleNameDTO.getId());
         ruleName.setName(ruleNameDTO.getName());
@@ -93,6 +106,9 @@ public class RuleNameServiceImpl implements RuleNameService {
 
     @Override
     public RuleNameDTO checkRule(Integer id){
+
+        logger.debug("checkRule");
+
         RuleName ruleName = ruleNameRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid rule Id:" + id));
         RuleNameDTO ruleNameDTO = new RuleNameDTO();
 

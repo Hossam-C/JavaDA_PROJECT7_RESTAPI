@@ -6,7 +6,10 @@ import com.nnk.springboot.DTO.CurvePointDTO;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.repositories.CurvePointRepository;
+import com.nnk.springboot.services.BidListService;
 import com.nnk.springboot.services.CurvePointService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,9 @@ import java.util.List;
 @Transactional
 @Service
 public class CurvePointServiceImpl implements CurvePointService {
+
+    private static final Logger logger = LogManager.getLogger(CurvePointService.class);
+
 
     @Autowired
     private CurvePointRepository curvePointRepository;
@@ -43,6 +49,8 @@ public class CurvePointServiceImpl implements CurvePointService {
     @Override
     public void addCurve(CurvePointDTO curvePointDTO){
 
+        logger.debug("addCurve");
+
         CurvePoint curvePoint = new CurvePoint();
         curvePoint.setCurveId(curvePointDTO.getCurveId());
         curvePoint.setTerm(curvePointDTO.getTerm());
@@ -55,6 +63,8 @@ public class CurvePointServiceImpl implements CurvePointService {
     @Override
     public void updateCurve(CurvePointDTO curvePointDTO) {
 
+        logger.debug("updateCurve");
+
         CurvePoint curvePoint = new CurvePoint();
         curvePoint.setId(curvePointDTO.getId());
         curvePoint.setCurveId(curvePointDTO.getCurveId());
@@ -66,6 +76,8 @@ public class CurvePointServiceImpl implements CurvePointService {
 
     @Override
     public void deleteCurve(CurvePointDTO curvePointDTO){
+
+        logger.debug("deleteCurve");
 
         CurvePoint curvePoint = new CurvePoint();
         curvePoint.setId(curvePointDTO.getId());
@@ -81,6 +93,8 @@ public class CurvePointServiceImpl implements CurvePointService {
 
     @Override
     public CurvePointDTO checkCurve(Integer id){
+
+        logger.debug("checkCurve");
         CurvePoint curvePoint = curvePointRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid Curve Id:" + id));
         CurvePointDTO curvePointDTO = new CurvePointDTO();
 

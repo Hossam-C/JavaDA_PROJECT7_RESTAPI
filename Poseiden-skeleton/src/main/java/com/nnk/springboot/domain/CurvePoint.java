@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "curvepoint")
 public class CurvePoint {
-    // TODO: Map columns in data table CURVEPOINT with corresponding java fields
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="Id")
@@ -60,11 +59,17 @@ public class CurvePoint {
     }
 
     public Timestamp getAsOfDate() {
-        return asOfDate;
+        Timestamp localTimestamp = asOfDate;
+        return localTimestamp;
     }
 
     public void setAsOfDate(Timestamp asOfDate) {
-        this.asOfDate = asOfDate;
+        if (asOfDate == null) {
+            this.asOfDate = null;
+        }
+        else {
+            this.asOfDate = new Timestamp(asOfDate.getTime());
+        }
     }
 
     public Double getTerm() {
@@ -84,10 +89,16 @@ public class CurvePoint {
     }
 
     public Timestamp getCreationDate() {
-        return creationDate;
+        Timestamp localTimestamp = creationDate;
+        return localTimestamp;
     }
 
     public void setCreationDate(Timestamp creationDate) {
-        this.creationDate = creationDate;
+        if (creationDate == null) {
+            this.creationDate = null;
+        }
+        else {
+            this.creationDate = new Timestamp(creationDate.getTime());
+        }
     }
 }

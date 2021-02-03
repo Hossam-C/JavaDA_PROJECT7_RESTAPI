@@ -1,5 +1,6 @@
 package com.nnk.springboot.DTO;
 
+
 public class BidListDTO {
 
     private Integer Id;

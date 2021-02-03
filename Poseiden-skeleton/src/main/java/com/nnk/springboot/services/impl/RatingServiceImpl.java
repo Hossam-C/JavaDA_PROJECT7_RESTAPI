@@ -4,7 +4,10 @@ package com.nnk.springboot.services.impl;
 import com.nnk.springboot.DTO.RatingDTO;
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.repositories.RatingRepository;
+import com.nnk.springboot.services.BidListService;
 import com.nnk.springboot.services.RatingService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +19,15 @@ import java.util.List;
 @Service
 public class RatingServiceImpl implements RatingService {
 
+    private static final Logger logger = LogManager.getLogger(RatingService.class);
+
     @Autowired
     RatingRepository ratingRepository;
 
     @Override
     public List<RatingDTO> ratingList(){
+
+        logger.debug("ratingList");
 
         List<RatingDTO>  ratingListDTO = new ArrayList<>();
 
@@ -44,6 +51,8 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public void addRating(RatingDTO ratingDTO){
 
+        logger.debug("addRating");
+
         Rating rating = new Rating();
         rating.setMoodysRating(ratingDTO.getMoodysRating());
         rating.setSandPRating(ratingDTO.getSandPRating());
@@ -56,6 +65,8 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public void updateRating(RatingDTO ratingDTO) {
+
+        logger.debug("updateRating");
 
         Rating rating = new Rating();
         rating.setId(ratingDTO.getId());
@@ -72,6 +83,8 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public void deleteRating(RatingDTO ratingDTO){
 
+        logger.debug("deleteRating");
+
         Rating rating = new Rating();
         rating.setId(ratingDTO.getId());
         rating.setMoodysRating(ratingDTO.getMoodysRating());
@@ -86,6 +99,9 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public RatingDTO checkRating(Integer id){
+
+        logger.debug("checkRating");
+
         Rating rating = ratingRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid Rating Id:" + id));
         RatingDTO ratingDTO = new RatingDTO();
 

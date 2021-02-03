@@ -18,4 +18,6 @@ public interface BidListService {
 
     public BidListDTO checkBid(Integer id);
 
+    public void checkBidByAccount(String account);
+
 }

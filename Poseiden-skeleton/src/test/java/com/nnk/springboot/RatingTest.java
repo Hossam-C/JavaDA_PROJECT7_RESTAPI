@@ -1,34 +1,34 @@
 package com.nnk.springboot;
 
-
-import com.nnk.springboot.DTO.CurvePointDTO;
 import com.nnk.springboot.DTO.RatingDTO;
-import com.nnk.springboot.controllers.CurveController;
-import com.nnk.springboot.controllers.RatingController;
-import com.nnk.springboot.services.CurvePointService;
 import com.nnk.springboot.services.RatingService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+import com.nnk.springboot.services.UserDetails;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(RatingController.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc(addFilters = false)
 public class RatingTest {
 
     @Autowired
@@ -37,11 +37,14 @@ public class RatingTest {
     @MockBean
     private RatingService ratingService;
 
+    @MockBean
+    private UserDetails userDetails;
+
     private RatingDTO rating1 = new RatingDTO();
     private RatingDTO rating2 = new RatingDTO();
     private RatingDTO rating3 = new RatingDTO();
 
-    @Before
+    @BeforeEach
     public void setUp(){
         rating1.setId(1);
         rating1.setMoodysRating("1");
@@ -84,8 +87,94 @@ public class RatingTest {
             e.printStackTrace();
         }
 
-        verify(ratingService, Mockito.times(1)).ratingList();
+    }
 
+    @Test
+    @WithMockUser(username = "admin", authorities = { "ADMIN", "USER" })
+    public void addRatingWithRedirect() throws Exception {
+
+        mvc.perform(get("/rating/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("rating/add"));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = { "ADMIN", "USER" })
+    public void showUpdateFormWithAnExistingId() throws Exception {
+
+        when(ratingService.checkRating(anyInt())).thenReturn(rating1);
+
+        mvc.perform(get("/rating/update/1"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = { "ADMIN", "USER" })
+    public void deleteRatingWitheAnExistingId() throws Exception {
+
+        when(ratingService.checkRating(anyInt())).thenReturn(rating1);
+        doNothing().when(ratingService).deleteRating(any(RatingDTO.class));
+        mvc.perform(get("/rating/delete/1"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/rating/list"));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = { "ADMIN", "USER" })
+    public void validateWithAnIncorrectRatingIdFormat() throws Exception {
+
+
+        when(ratingService.checkRating(anyInt())).thenReturn(rating1);
+        mvc.perform(post("/rating/validate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("id", "abc")
+                .param("moodysRating", "1")
+                .param("sandPRating", "10")
+                .param("fitchRating", "100")
+                .param("orderNumber", "11"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("rating/add"));
+    }
+
+    @Test
+    public void updateRatingWithAnExistingId() throws Exception {
+
+        when(ratingService.checkRating(1)).thenReturn(rating1);
+        mvc.perform(post("/rating/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("id", "1")
+                .param("moodysRating", "1")
+                .param("sandPRating", "10")
+                .param("fitchRating", "100")
+                .param("orderNumber", "11"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/rating/list"));
+    }
+
+    @Test
+    public void updateRatingWithIncorrectId() throws Exception {
+
+        mvc.perform(post("/rating/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .param("id", "abc")
+                .param("moodysRating", "1")
+                .param("sandPRating", "10")
+                .param("fitchRating", "100")
+                .param("orderNumber", "11"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("rating/update"));
     }
 
 }

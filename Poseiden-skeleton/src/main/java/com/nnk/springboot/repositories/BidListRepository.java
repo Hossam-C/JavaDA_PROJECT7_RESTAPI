@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BidListRepository extends JpaRepository<BidList, Integer> {
 
+    void deleteAll();
+
+    BidList getBidListByAccount(String account);
+
 }
