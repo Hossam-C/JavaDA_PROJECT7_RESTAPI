@@ -1,7 +1,5 @@
 package com.nnk.springboot.domain;
 
-import org.h2.bnf.Rule;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
@@ -15,9 +13,11 @@ public class RuleName {
     private Integer Id;
 
     @Column(name="name")
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
     @Column(name="description")
+    @NotBlank(message = "Description is mandatory")
     private String description;
 
     @Column(name="json")

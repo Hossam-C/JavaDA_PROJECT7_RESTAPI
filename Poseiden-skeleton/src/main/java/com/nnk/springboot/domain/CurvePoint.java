@@ -17,13 +17,14 @@ public class CurvePoint {
     private Integer Id;
 
     @Column(name="curveId")
-    @NotBlank(message = "Curve Id is mandatory")
+    @NotNull(message = "Curve Id is mandatory")
     private Integer curveId;
 
     @Column(name="asOfDate")
     private Timestamp asOfDate;
 
     @Column(name="term")
+    @NotNull(message="Term is mandatory")
     private Double term;
 
     @Column(name="value")

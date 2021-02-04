@@ -1,6 +1,9 @@
 package com.nnk.springboot.DTO;
 
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class BidListDTO {
 
     private Integer Id;
