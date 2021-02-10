@@ -1,11 +1,16 @@
 package com.nnk.springboot.DTO;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
 
 public class RuleNameDTO {
 
     private Integer Id;
+
+    @NotBlank(message = "Name is mandatory")
     private String name;
+
+    @NotBlank(message = "Description is mandatory")
     private String description;
     private String json;
     private String template;

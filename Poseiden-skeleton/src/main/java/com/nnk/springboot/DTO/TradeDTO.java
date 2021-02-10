@@ -1,12 +1,22 @@
 package com.nnk.springboot.DTO;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class TradeDTO {
 
     private Integer tradeId;
+
+    @NotNull
+    @NotBlank(message = "Account is mandatory")
     private String account;
+
+    @NotNull
+    @NotBlank(message = "Type is mandatory")
     private String type;
+
+    @NotNull(message = "Bid Quantity is mandatory")
     private Double buyQuantity;
 
     public Integer getTradeId() {

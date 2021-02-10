@@ -15,13 +15,9 @@ public class Trade {
     private Integer tradeId;
 
     @Column(name="account")
-    @NotNull
-    @NotBlank(message = "Account is mandatory")
     private String account;
 
     @Column(name="type")
-    @NotNull
-    @NotBlank(message = "Type is mandatory")
     private String type;
 
     @Column(name="buyQuantity")

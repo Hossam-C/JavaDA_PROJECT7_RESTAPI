@@ -1,13 +1,17 @@
 package com.nnk.springboot.DTO;
 
+import javax.validation.constraints.NotNull;
+
 public class CurvePointDTO {
 
     private Integer id;
 
+    @NotNull(message = "Curve Id is mandatory")
     private Integer curveId;
 
     private Double term;
 
+    @NotNull(message="Term is mandatory")
     private Double value;
 
     public Integer getId() {

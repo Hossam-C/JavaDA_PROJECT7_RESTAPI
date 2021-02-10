@@ -10,14 +10,9 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
-    @NotBlank(message = "Username is mandatory")
     private String username;
-    @Pattern(regexp = "\\A(?=\\S*?[0-9])(?=\\S*?[a-z])(?=\\S*?[A-Z])(?=\\S*?[@#$%^_&+=])\\S{8,}\\z",message="format du mot de passe incorrect")
-    @NotBlank(message = "Password is mandatory")
     private String password;
-    @NotBlank(message = "FullName is mandatory")
     private String fullname;
-    @NotBlank(message = "Role is mandatory")
     private String role;
 
 

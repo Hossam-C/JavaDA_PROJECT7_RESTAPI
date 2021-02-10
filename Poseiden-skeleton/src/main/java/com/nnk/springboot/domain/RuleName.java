@@ -13,11 +13,9 @@ public class RuleName {
     private Integer Id;
 
     @Column(name="name")
-    @NotBlank(message = "Name is mandatory")
     private String name;
 
     @Column(name="description")
-    @NotBlank(message = "Description is mandatory")
     private String description;
 
     @Column(name="json")
